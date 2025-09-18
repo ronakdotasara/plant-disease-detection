@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Detection System - Control Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="scripts.js"></script> 
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <i class="fas fa-seedling"></i>
+                <div class="title-group">
+                    <h1>Plant Disease Detection System</h1>
+                    <p>Agricultural Monitoring & Control Dashboard</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <div class="system-status">
+                    <span class="status-indicator active"></span>
+                    <span>System Online</span>
+                </div>
+                <div class="timestamp" id="currentTime"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- System Overview Cards -->
+        <section class="overview-section">
+            <div class="card-grid">
+                <div class="stat-card">
+                    <div class="card-header">
+                        <i class="fas fa-thermometer-half"></i>
+                        <h3>Temperature</h3>
+                    </div>
+                    <div class="card-value">
+                        <span id="temperature">--</span>°C
+                    </div>
+                    <div class="card-status normal">Normal Range</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-header">
+                        <i class="fas fa-tint"></i>
+                        <h3>Humidity</h3>
+                    </div>
+                    <div class="card-value">
+                        <span id="humidity">--</span>%
+                    </div>
+                    <div class="card-status normal">Optimal</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-header">
+                        <i class="fas fa-seedling"></i>
+                        <h3>Soil Moisture</h3>
+                    </div>
+                    <div class="card-value">
+                        <span id="soilMoisture">--</span>%
+                    </div>
+                    <div class="card-status warning">Low</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-header">
+                        <i class="fas fa-flask"></i>
+                        <h3>Soil pH</h3>
+                    </div>
+                    <div class="card-value">
+                        <span id="soilPH">--</span>
+                    </div>
+                    <div class="card-status normal">Balanced</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Control Panel & Disease Detection -->
+        <section class="control-section">
+            <div class="section-grid">
+                <!-- Manual Controls -->
+                <div class="control-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-sliders-h"></i> Manual Control Panel</h2>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-item">
+                            <label>Water Pump Control</label>
+                            <div class="control-buttons">
+                                <button class="btn btn-primary" id="pumpOn">
+                                    <i class="fas fa-play"></i> Start
+                                </button>
+                                <button class="btn btn-secondary" id="pumpOff">
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            </div>
+                            <div class="pump-status">
+                                <span class="status-text" id="pumpStatus">OFF</span>
+                            </div>
+                        </div>
+
+                        <div class="control-item">
+                            <label>Spray Duration (seconds)</label>
+                            <input type="number" id="sprayDuration" value="30" min="5" max="300">
+                            <button class="btn btn-warning" id="manualSpray">
+                                <i class="fas fa-spray-can"></i> Manual Spray
+                            </button>
+                        </div>
+
+                        <div class="control-item">
+                            <label>System Mode</label>
+                            <select id="systemMode">
+                                <option value="auto">Automatic</option>
+                                <option value="manual">Manual Only</option>
+                                <option value="scheduled">Scheduled</option>
+                            </select>
+                        </div>
+
+                        <div class="control-item">
+                            <label>Emergency Controls</label>
+                            <div class="emergency-controls">
+                                <button class="btn btn-danger" id="emergencyStop">
+                                    <i class="fas fa-exclamation-triangle"></i> Emergency Stop
+                                </button>
+                                <button class="btn btn-success" id="systemReset">
+                                    <i class="fas fa-sync"></i> System Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disease Detection Panel -->
+                <div class="disease-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-microscope"></i> Disease Detection Status</h2>
+                    </div>
+                    <div class="detection-content">
+                        <div class="camera-feed">
+                            <div class="camera-placeholder" id="cameraFeed">
+                                <i class="fas fa-camera"></i>
+                                <p>Camera Feed</p>
+                                <button class="btn btn-primary" id="captureImage">Capture & Analyze</button>
+                            </div>
+                        </div>
+                        <div class="detection-results">
+                            <div class="result-item">
+                                <label>Last Detection:</label>
+                                <span id="lastDetection">No disease detected</span>
+                            </div>
+                            <div class="result-item">
+                                <label>Confidence Level:</label>
+                                <span id="confidenceLevel">--</span>%
+                            </div>
+                            <div class="result-item">
+                                <label>Recommended Action:</label>
+                                <span id="recommendedAction">Monitor</span>
+                            </div>
+                            <div class="result-item">
+                                <label>Last Analysis:</label>
+                                <span id="lastAnalysis">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Visualization -->
+        <section class="charts-section">
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Environmental Trends (24 Hours)</h3>
+                    </div>
+                    <canvas id="environmentChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>System Activity Log</h3>
+                    </div>
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity Log & Alerts -->
+        <section class="log-section">
+            <div class="section-grid">
+                <div class="activity-log">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-list"></i> System Activity Log</h2>
+                    </div>
+                    <div class="log-content" id="activityLog">
+                        <div class="log-entry">
+                            <span class="timestamp">2025-09-18 14:30:25</span>
+                            <span class="action">System initialized</span>
+                            <span class="status success">SUCCESS</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="timestamp">2025-09-18 14:35:10</span>
+                            <span class="action">Disease detection completed</span>
+                            <span class="status success">SUCCESS</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="timestamp">2025-09-18 14:40:15</span>
+                            <span class="action">Automatic spray triggered</span>
+                            <span class="status warning">WARNING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alerts-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-bell"></i> System Alerts</h2>
+                    </div>
+                    <div class="alerts-content" id="alertsPanel">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Low Soil Moisture</strong>
+                                <p>Soil moisture below optimal range (35%)</p>
+                                <small>2 minutes ago</small>
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>System Update</strong>
+                                <p>Disease detection model updated successfully</p>
+                                <small>1 hour ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Plant Disease Detection System | Agricultural Technology Division</p>
+            <div class="footer-links">
+                <a href="#" onclick="showSettings()">Settings</a>
+                <a href="#" onclick="downloadReport()">Download Report</a>
+                <a href="#" onclick="showHelp()">Help & Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

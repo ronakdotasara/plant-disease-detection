@@ -1,0 +1,604 @@
+/* Government-style Professional Dashboard CSS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-section i {
+    font-size: 2.5rem;
+    color: #4CAF50;
+}
+
+.title-group h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.title-group p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    animation: pulse 2s infinite;
+}
+
+.status-indicator.active {
+    background-color: #4CAF50;
+}
+
+.timestamp {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+/* Main Content */
+.main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.overview-section {
+    margin-bottom: 2rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-left: 4px solid #3498db;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.card-header i {
+    font-size: 1.5rem;
+    color: #3498db;
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    color: #34495e;
+    font-weight: 600;
+}
+
+.card-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.card-status {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.card-status.normal {
+    background: #d4edda;
+    color: #155724;
+}
+
+.card-status.warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.card-status.critical {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Control Section */
+.control-section {
+    margin-bottom: 2rem;
+}
+
+.section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.control-panel, .disease-panel {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.panel-header {
+    background: #34495e;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-bottom: 3px solid #3498db;
+}
+
+.panel-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.control-group {
+    padding: 1.5rem;
+}
+
+.control-item {
+    margin-bottom: 2rem;
+}
+
+.control-item label {
+    display: block;
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 0.8rem;
+}
+
+.control-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.btn-warning {
+    background: #f39c12;
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #e67e22;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-success {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #229954;
+}
+
+.pump-status {
+    margin-top: 0.5rem;
+}
+
+.status-text {
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.status-text.on {
+    color: #27ae60;
+}
+
+input[type="number"], select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+input[type="number"]:focus, select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.emergency-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Disease Detection Panel */
+.detection-content {
+    padding: 1.5rem;
+}
+
+.camera-feed {
+    background: #ecf0f1;
+    border: 2px dashed #bdc3c7;
+    border-radius: 10px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.camera-placeholder i {
+    font-size: 3rem;
+    color: #95a5a6;
+    margin-bottom: 1rem;
+}
+
+.detection-results {
+    display: grid;
+    gap: 1rem;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 3px solid #3498db;
+}
+
+.result-item label {
+    font-weight: 600;
+    color: #34495e;
+}
+
+.result-item span {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* Charts Section */
+.charts-section {
+    margin-bottom: 2rem;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.chart-header {
+    background: #2c3e50;
+    color: white;
+    padding: 1rem 1.5rem;
+}
+
+.chart-header h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.chart-container canvas {
+    padding: 1rem;
+    max-height: 300px;
+}
+
+/* Log Section */
+.log-section {
+    margin-bottom: 2rem;
+}
+
+.activity-log, .alerts-panel {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.log-content, .alerts-content {
+    padding: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    gap: 1rem;
+    padding: 0.8rem;
+    border-bottom: 1px solid #ecf0f1;
+    align-items: center;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-entry .timestamp {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+.log-entry .action {
+    color: #2c3e50;
+}
+
+.log-entry .status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 4px solid;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    border-left-color: #f39c12;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    border-left-color: #3498db;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    border-left-color: #e74c3c;
+}
+
+.alert i {
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+}
+
+.alert strong {
+    color: #2c3e50;
+}
+
+.alert p {
+    margin: 0.3rem 0;
+}
+
+.alert small {
+    color: #7f8c8d;
+    font-size: 0.8rem;
+}
+
+/* Footer */
+.footer {
+    background: #2c3e50;
+    color: white;
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #3498db;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.stat-card, .control-panel, .disease-panel, .chart-container {
+    animation: slideIn 0.5s ease forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .section-grid, .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .control-buttons, .emergency-controls {
+        flex-direction: column;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .log-entry {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
