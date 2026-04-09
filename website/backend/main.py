@@ -36,15 +36,23 @@ async def lifespan(app: FastAPI):
     log.info("Starting Agri-Watch OJAS backend…")
     init_db()
 
-    sb = SerialBridge(port=settings.SERIAL_PORT, baud=settings.SERIAL_BAUD)
-    threading.Thread(target=sb.start, daemon=True, name="Serial-Bridge").start()
-    app.state.serial_bridge = sb
+    if settings.SERIAL_PORT and settings.SERIAL_PORT.upper() != "DISABLED":
+        sb = SerialBridge(port=settings.SERIAL_PORT, baud=settings.SERIAL_BAUD)
+        threading.Thread(target=sb.start, daemon=True, name="Serial-Bridge").start()
+        app.state.serial_bridge = sb
+        log.info("Serial bridge started on %s.", settings.SERIAL_PORT)
+    else:
+        app.state.serial_bridge = None
+        log.info("Serial bridge disabled (no hardware).")
 
-    cw = CSVWatcher(settings.CSV_LOG_PATH)
-    threading.Thread(target=cw.start, daemon=True, name="CSV-Watcher").start()
-    app.state.csv_watcher = cw
-
-    log.info("Serial bridge + CSV watcher started.")
+    if settings.CSV_LOG_PATH and settings.CSV_LOG_PATH.upper() != "DISABLED":
+        cw = CSVWatcher(settings.CSV_LOG_PATH)
+        threading.Thread(target=cw.start, daemon=True, name="CSV-Watcher").start()
+        app.state.csv_watcher = cw
+        log.info("CSV watcher started: %s.", settings.CSV_LOG_PATH)
+    else:
+        app.state.csv_watcher = None
+        log.info("CSV watcher disabled (no hardware).")
     yield
 
     log.info("Shutting down…")
