@@ -16,13 +16,14 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AIzaSyDJUoyF3RDWcKCSNz50zVAxuAAF7A2kqQM")
 GEMINI_MODEL   = "gemini-2.0-flash"
 
+# --- Backend (Render) ---
+BACKEND_URL = os.getenv("BACKEND_URL", "https://plant-disease-detection-ddyf.onrender.com")
+
 # --- Serial: LilyGo T-Display S3 AMOLED ---
-# Persistent symlink created by 99-ojas-devices.rules
 LILYGO_PORT    = "/dev/lilygo"
 LILYGO_BAUD    = 115200
 
 # --- Serial: NodeMCU (OLED + LEDs + pumps + relay) ---
-# Persistent symlink created by 99-ojas-devices.rules
 NODEMCU_PORT   = "/dev/nodemcu"
 NODEMCU_BAUD   = 115200
 
@@ -65,7 +66,7 @@ MIN_TANK_LEVEL_PCT       = 15
 MIN_CONCENTRATION_PCT    = 10
 NODEMCU_WATCHDOG_SECONDS = 10
 
-# Aliases for compatibility with nodemcu_serial.py
-SERIAL_PORT = NODEMCU_PORT
-SERIAL_BAUD = NODEMCU_BAUD
-SERIAL_TIMEOUT = 1  # Add this since it was missing from your config
+# --- Serial aliases (for nodemcu_serial.py compatibility) ---
+SERIAL_PORT    = NODEMCU_PORT
+SERIAL_BAUD    = NODEMCU_BAUD
+SERIAL_TIMEOUT = 1
