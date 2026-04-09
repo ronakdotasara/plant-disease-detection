@@ -39,7 +39,7 @@ except ImportError:
 
 
 class SerialBridge:
-    def __init__(self, port: str = "/dev/ttyUSB0", baud: int = 115200):
+    def __init__(self, port: str = "/dev/nodemcu", baud: int = 115200):
         self.port  = port
         self.baud  = baud
         self._ser  = None
@@ -90,6 +90,11 @@ class SerialBridge:
     # ── Background reconnect probe ─────────────────────────────────────────────
 
     def start(self):
+        # Disable serial bridge if no port configured
+        if not self.port or self.port.lower() == "none":
+            log.info("Serial bridge disabled (SERIAL_PORT=%s) — skipping.", self.port)
+            return                          # ← exits immediately, no retry loop
+
         self._running = True
         while self._running:
             if self._ser is None or not self._ser.is_open:
