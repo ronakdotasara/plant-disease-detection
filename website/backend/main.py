@@ -36,7 +36,8 @@ async def lifespan(app: FastAPI):
     log.info("Starting Agri-Watch OJAS backend…")
     init_db()
 
-    if settings.SERIAL_PORT and settings.SERIAL_PORT.upper() != "DISABLED":
+    # ── Serial bridge (backend → NodeMCU) ────────────────────────────────────
+    if settings.SERIAL_PORT and settings.SERIAL_PORT.upper() not in ("DISABLED", "NONE"):
         sb = SerialBridge(port=settings.SERIAL_PORT, baud=settings.SERIAL_BAUD)
         threading.Thread(target=sb.start, daemon=True, name="Serial-Bridge").start()
         app.state.serial_bridge = sb
@@ -45,7 +46,8 @@ async def lifespan(app: FastAPI):
         app.state.serial_bridge = None
         log.info("Serial bridge disabled (no hardware).")
 
-    if settings.CSV_LOG_PATH and settings.CSV_LOG_PATH.upper() != "DISABLED":
+    # ── CSV watcher (tails RPi pesticide_log.csv → SQLite) ───────────────────
+    if settings.CSV_LOG_PATH and settings.CSV_LOG_PATH.upper() not in ("DISABLED", "NONE"):
         cw = CSVWatcher(settings.CSV_LOG_PATH)
         threading.Thread(target=cw.start, daemon=True, name="CSV-Watcher").start()
         app.state.csv_watcher = cw
@@ -53,11 +55,15 @@ async def lifespan(app: FastAPI):
     else:
         app.state.csv_watcher = None
         log.info("CSV watcher disabled (no hardware).")
-    yield
+
+    yield  # ── application runs ──────────────────────────────────────────────
 
     log.info("Shutting down…")
-    sb.stop()
-    cw.stop()
+    # Guard against None — serial/CSV may be disabled in dev/CI environments
+    if app.state.serial_bridge is not None:
+        app.state.serial_bridge.stop()
+    if app.state.csv_watcher is not None:
+        app.state.csv_watcher.stop()
 
 
 app = FastAPI(
@@ -72,8 +78,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], allow_credentials=True,
-    allow_methods=["*"], allow_headers=["*"],
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(sensors_router, prefix="/sensors", tags=["Sensors"])
@@ -88,11 +96,11 @@ app.include_router(camera_router,  prefix="/camera",  tags=["Camera"])
 def health():
     sb = getattr(app.state, "serial_bridge", None)
     return {
-        "status": "ok",
+        "status":           "ok",
         "serial_connected": sb.is_connected() if sb else False,
-        "version": "2.0.0",
-        "hardware": "RPi4 + NodeMCU v3 ESP8266 + LilyGo T-Display S3 AMOLED",
-        "team": "OJAS · NIT Hamirpur",
+        "version":          "2.0.0",
+        "hardware":         "RPi4 + NodeMCU v3 ESP8266 + LilyGo T-Display S3 AMOLED",
+        "team":             "OJAS · NIT Hamirpur",
     }
 
 
